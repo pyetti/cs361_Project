@@ -6,16 +6,16 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 src: [
-                    'public/js/*.js', 
-                    'public/js/global.js'  
+                    'public/js/*.js',
+                    'public/js/global.js'
                 ],
                 dest: 'public/js/build/production.js',
             }
         },
         uglify: {
            build: {
-               src: 'js/build/production.js',
-               dest: 'js/build/production.min.js'
+               src: 'public/js/build/production.js',
+               dest: 'public/js/build/production.min.js'
             }
         },
         imagemin: {
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     dest: 'public/images/build/'
                }]
            }
-        }   
+        }
 
     });
 

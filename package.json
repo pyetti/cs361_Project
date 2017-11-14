@@ -12,6 +12,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-concat": "^1.0.1",
