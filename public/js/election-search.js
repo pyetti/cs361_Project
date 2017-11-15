@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
 function electionSearch () {
 	document.getElementById('submit-election-search').addEventListener('click', function(event) {
 		event.preventDefault();
-		document.getElementById('zipcode-entered').textContent = "";
-		document.getElementById('electionInfo').textContent = "";
+		document.getElementById('electionInfo').innerText = "";
+		document.getElementById('invalid-zipCode-message').innerText = "";
 
 		var zipcode = document.getElementById('zipcode').value;
 
 		if (!zipcode || zipcode.length != 5 || isNaN(zipcode)) {
-			displayError("Invalid Zip Code");
+			displayError('invalid-zipCode-message', "Invalid Zip Code");
 			return;
 		}
 
@@ -22,16 +22,11 @@ function electionSearch () {
 			var response = JSON.parse(request.responseText);
 
 			if (request.status >= 200 && request.status < 400) {
-				document.getElementById('zipcode-entered').innerText = response.zipcode;
 				document.getElementById('electionInfo').innerText = response.electionInfo;
 			} else {
-				console.log("Server Error");
+				displayError('invalid-zipCode-message', response.invalidZipCode);
 			}
 		});
 		request.send(null);
 	});
-}
-
-function displayError (message) {
-	document.getElementById('error').textContent = message;
 }

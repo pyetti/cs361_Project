@@ -22,7 +22,7 @@ app.get('/', function(req,res) {
 app.get('/getElectionInfo', function(req, res, next) {
   var context = {};
   if (!req.query.zipcode || req.query.zipcode.length != 5 || isNaN(req.query.zipcode)) {
-    context.error = "Invalid zip code";
+    context.invalidZipCode = "Invalid zip code";
   } else {
     context.zipcode = req.query.zipcode;
     context.electionInfo = "Independent";
