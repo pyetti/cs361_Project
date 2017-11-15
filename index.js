@@ -25,7 +25,7 @@ app.get('/getElectionInfo', function(req, res, next) {
     context.error = "Invalid zip code";
   } else {
     context.zipcode = req.query.zipcode;
-    context.electionInfo = "Republic vs. Democrat";
+    context.electionInfo = "Independent";
   }
   res.status(200);
   res.render('elections', context);
