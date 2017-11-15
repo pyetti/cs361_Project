@@ -28,7 +28,7 @@ app.get('/getElectionInfo', function(req, res, next) {
     context.electionInfo = "Independent";
   }
   res.status(200);
-  res.render('elections', context);
+  res.send(context);
 });
 
 app.use(function(req,res){
