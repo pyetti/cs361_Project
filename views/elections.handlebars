@@ -1,0 +1,34 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form action="/getElectionInfo" method="get">
+			  <div class="form-group">
+			    <label for="zipcode">Find Elections in Your Area</label>
+			    <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code - 32216">
+			  </div>
+			  <button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+{{#if electionInfo }}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<p>{{ zipcode }}</p>
+				<p>{{ electionInfo }}</p>
+			</div>
+		</div>
+	</div>
+{{/if}}
+
+{{#if error }}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<p>{{ error }}</p>
+			</div>
+		</div>
+	</div>
+{{/if}}
