@@ -1,7 +1,16 @@
 * {
-	/*border: 1px solid red;*/
+/*	border: 1px solid red;*/
 }
 
 .header {
-	margin-top: 5px;
+	margin-top: 8px;
+}
+
+.user-auth-buttons {
+	margin: 5px 0 -8px 0;
+}
+
+.invalid-zipCode {
+	margin-top: 10px;
+	color: red;
 }
