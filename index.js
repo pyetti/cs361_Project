@@ -2,6 +2,7 @@ var express = require('express');
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var userDb = require('./modules/userDb.js'); // Add the user database file
 
 var app = express();
 app.engine('handlebars', handlebars.engine);
@@ -29,6 +30,10 @@ app.get('/getElectionInfo', function(req, res, next) {
   }
   res.status(200);
   res.send(context);
+});
+
+app.post('/registerUser', function(req, res, next) {
+  user.registerUser(req, res, next);
 });
 
 app.use(function(req,res){
