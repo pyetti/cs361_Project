@@ -1,0 +1,19 @@
+<div class="container">
+	<div class="proposition-detail">
+		{{#each propositionDetails }}
+			<div class="row proposition-header">
+				<div class="col-md-6 proposition-detail-title">
+					<span>{{ this.title }}</span>
+				</div>
+				<div class="col-md-6 proposition-detail-date">
+					<span>{{ this.date }}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p class="proposition-detail-description">{{ this.description }}</p>
+				</div>
+			</div>
+		{{/each}}
+	</div>
+</div>

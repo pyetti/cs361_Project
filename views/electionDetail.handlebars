@@ -1,0 +1,22 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="election-detail">
+				{{#each electionDetail }}
+					<div>
+						<span class="election-detail-title">{{ this.title }}</span>
+						<span class="election-detail-date text-right">{{ this.election_date }}</span>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{{#each candidates }}
+			<div class="col-md-4">
+				<p class="election-detail-candidate-party text-center">{{ this.party }}</p>
+				<p>{{ this.first_name }} {{ this.last_name }}</p>
+			</div>
+		{{/each}}
+	</div>
+</div>

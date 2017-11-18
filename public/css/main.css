@@ -1,5 +1,10 @@
 * {
-/*	border: 1px solid red;*/
+	/*border: 1px solid red;*/
+}
+
+.href:hover {
+	text-decoration: none;
+	color: lightblue;
 }
 
 .header {
@@ -17,4 +22,42 @@
 
 .clickable-row {
 	cursor: pointer;
+}
+
+.election-detail {
+	margin: 0 0 15px 0;
+}
+
+.election-detail-title {
+	font-size: 2em;
+}
+
+.election-detail-date {
+	font-size: 1.5em;
+}
+
+.election-detail-candidate-party {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.proposition-detail {
+
+}
+
+.proposition-header {
+	border-bottom: 1px solid black;
+}
+
+.proposition-detail-title {
+	font-size: 2em;
+}
+
+.proposition-detail-date {
+	font-size: 1.5em;
+	text-align: right;
+}
+
+.proposition-detail-description {
+	margin: 20px;
 }
