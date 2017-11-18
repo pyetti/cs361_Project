@@ -36,6 +36,20 @@ module.exports = function(grunt) {
                     spawn: false,
                 },
             }
+        },
+
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        filter: 'isFile',
+                        src: 'node_modules/bootstrap/dist/css/bootstrap.min.css',
+                        dest: 'public/css/'
+                    }
+                ]
+            }
         }
 
     });
@@ -44,6 +58,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'watch']);
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.registerTask('build', ['concat', 'uglify', 'imagemin', 'copy']);
+    grunt.registerTask('run', ['watch']);
 
 };
