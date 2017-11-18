@@ -12,12 +12,14 @@ module.exports = function(grunt) {
                 dest: 'public/js/build/production.js',
             }
         },
+
         uglify: {
            build: {
                src: 'public/js/build/production.js',
                dest: 'public/js/build/production.min.js'
             }
         },
+
         imagemin: {
             dynamic: {
                 files: [{
@@ -28,6 +30,7 @@ module.exports = function(grunt) {
                }]
            }
         },
+
         watch: {
             scripts: {
                 files: ['public/js/*.js'],
@@ -45,11 +48,15 @@ module.exports = function(grunt) {
                         expand: true,
                         flatten: true,
                         filter: 'isFile',
-                        src: 'node_modules/bootstrap/dist/css/bootstrap.min.css',
+                        src: './node_modules/bootstrap/dist/css/bootstrap.min.css',
                         dest: 'public/css/'
                     }
                 ]
             }
+        },
+
+        clean: {
+            src: ['./public/js/build/production.js', './public/js/build/production.min.js'],
         }
 
     });
@@ -59,7 +66,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.registerTask('build', ['concat', 'uglify', 'imagemin', 'copy']);
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.registerTask('release', ['clean', 'copy:main', 'concat', 'uglify', 'imagemin']);
+    grunt.registerTask('dev_build', ['clean', 'copy:main', 'concat', 'imagemin']);
     grunt.registerTask('default', ['watch']);
 
 };

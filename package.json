@@ -15,10 +15,12 @@
     "express-session": "^1.15.6",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-uglify": "^3.1.0",
     "grunt-contrib-watch": "^1.0.0",
+    "mysql": "^2.15.0",
     "nodemailer": "^4.4.0"
   },
   "devDependencies": {

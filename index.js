@@ -2,11 +2,15 @@ var express = require('express');
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var electionsDb = require('./modules/electionsDb.js');
 //var userDb = require('./modules/userDb.js'); // Add the user database file
 var nodemailer = require('nodemailer');
+var hbs = require('./modules/hbsHelper.js');
+
 var app = express();
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+
+hbs.registerHandlebars(app, handlebars);
+
 app.set('port', 4350);
 app.use(session({secret:'_qJ$_fuRZueuMrD8TCMgH6WL**h^PH'}));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,20 +20,20 @@ app.use(express.static('public'));
 app.get('/', function(req,res) {
   res.status(200);
   var context = {};
-  context.message = "Search for elections";
+  context.message = "Search for elections by Zip Code";
   res.render('elections', context);
 });
 
-app.get('/getElectionInfo', function(req, res, next) {
+app.get('/getLocalInfo', function(req, res, next) {
   var context = {};
   if (!req.query.zipcode || req.query.zipcode.length != 5 || isNaN(req.query.zipcode)) {
     context.invalidZipCode = "Invalid zip code";
+    res.status(200);
+    res.render('elections', context);
   } else {
-    context.zipcode = req.query.zipcode;
-    context.electionInfo = "Independent";
+    electionsDb.getElectionInfo(req, res, next);
   }
-  res.status(200);
-  res.send(context);
+
 });
 
 
@@ -77,7 +81,7 @@ app.post('/send',(req, res) => {
         subject: 'Hello Vote ✔ test message cs361', // Subject line
         text: 'Vote message test', // plain text body
         html:  output// html body
-    
+
     };
 
     // send mail with defined transport object

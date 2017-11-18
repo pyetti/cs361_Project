@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', function(event) {
-	electionSearch();
+	// electionSearch();
+	onRowClick();
 });
+
+function onRowClick() {
+	var rows = document.getElementsByClassName('clickable-row');
+
+	for (var rowNum = 0; rowNum < rows.length; rowNum++) {
+		var row = rows[rowNum];
+		row.onclick = function() {
+			window.location = this.getAttribute('data-href');
+		}
+	};
+}
 
 function electionSearch () {
 	document.getElementById('submit-election-search').addEventListener('click', function(event) {
@@ -16,7 +28,7 @@ function electionSearch () {
 		}
 
 		var request = new XMLHttpRequest();
-		request.open("GET", "/getElectionInfo?zipcode=" + zipcode);
+		request.open("GET", "/getLocalInfo?zipcode=" + zipcode);
 
 		request.addEventListener('load', function(event) {
 			var response = JSON.parse(request.responseText);
