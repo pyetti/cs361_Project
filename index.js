@@ -107,7 +107,7 @@ app.post('/send', urlencodedParser, function(req, res) {
         from: 'VOTE✔LOCAL <voter.info.cs361@gmail.com>', // sender address
         to: req.body.email, // list of receivers
         subject: 'VOTE✔LOCAL test message cs361', // Subject line
-        text: 'Vote message test', // plain text body
+        text: req.body.message, // plain text body
         html:  output// html body
 
     };
@@ -120,12 +120,12 @@ app.post('/send', urlencodedParser, function(req, res) {
         console.log('Message sent: %s', info.messageId);
         // Preview only available when sending through an Ethereal account
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        res.render('subscription');
     });
 
 
 
 
+        res.render('subscription', {updateForm:'Message sent'});
 
 })
 app.use(function(req,res){
