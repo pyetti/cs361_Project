@@ -1,0 +1,41 @@
+<head>
+	<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+
+<input type='checkbox' id='form-switch'>
+<form id='register-form' action="" method='post'>
+  <h2>Account Creation</h2>
+  <input type="form" placeholder="Username" required>
+  <input type="form" placeholder="Email" required>
+  <input type="form" placeholder="Password" required>
+  <input type="form" placeholder="Re-type Password" required>
+  <input type="form" placeholder="Zip Code" required>
+  
+  <select name="party">
+  <option disabled selected value> Political Affilation</option>
+  <option value="democrat">Democrat</option>
+  <option value="republican">Republican</option>
+  <option value="Green">Green Party</option>
+  <option value="libertarian">Libertarian</option>
+  <option value="Independent">Independent/Other</option>
+  </select>
+
+   <br><br>
+
+   <h2>Customize Your Experience</h2>
+   <input type="checkbox" value="Reminders"> Get reminders for upcoming events<br>
+   <input type="checkbox" value="Newsletter"> Receive an election newsletter<br>
+   <br>
+  <button type='submit'>Register</button>
+  <label for='form-switch'>Have an account? Click here. </label>
+</form>
+<form id='login-form' action="" method='post'>
+<h2>Login</h2>
+  <input type="form" placeholder="Username" required>
+  <input type="form" placeholder="Password" required>
+  <br><br><br>
+  <button type='submit'>Login</button>
+  <label for='form-switch'><span>Register</span></label>
+</form>

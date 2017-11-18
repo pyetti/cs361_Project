@@ -48,6 +48,13 @@ app.get('/getElectionDetails', function(req, res, next) {
   }
 });
 
+app.get('/register', function(req, res, next) {
+  var context = {};
+  res.status(200);
+  res.render('registerLogin', context);
+});
+
+
 app.get('/getPropositionDetails', function(req, res, next) {
   if (!req.query.propositionId || isNaN(req.query.propositionId)) {
     var context = {};
