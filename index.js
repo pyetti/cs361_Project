@@ -3,7 +3,7 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var electionsDb = require('./modules/electionsDb.js');
-//var userDb = require('./modules/userDb.js'); // Add the user database file
+var userDb = require('./modules/userDb.js'); // Add the user database file
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var hbs = require('./modules/hbsHelper.js');
@@ -51,7 +51,18 @@ app.get('/getElectionDetails', function(req, res, next) {
 app.get('/register', function(req, res, next) {
   var context = {};
   res.status(200);
-  res.render('registerLogin', context);
+  res.render('register', context);
+});
+
+app.get('/login', function(req, res, next) {
+  var context = {};
+  res.status(200);
+  res.render('login', context);
+});
+
+app.get('/registeruser', function(req, res, next) {
+  userDb.register(req, res, next);
+
 });
 
 
