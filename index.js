@@ -3,6 +3,7 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
 //var userDb = require('./modules/userDb.js'); // Add the user database file
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var app = express();
 app.engine('handlebars', handlebars.engine);
@@ -52,10 +53,19 @@ app.get('/message', (req, res)=>{
   //  res.status(200);
     res.render('subscription');
 });
+//app.post('/login', urlencodedParser, function (req, res) {
+//  if (!req.body) return res.sendStatus(400)
+//  res.send('welcome, ' + req.body.username)
+//})
 
-app.post('/send',(req, res) => {
-  console.log(req.body);
-  const output = `<p> This is a email subscription test</p>`;
+
+ 
+app.post('/send', urlencodedParser, function(req, res) {
+ 
+ 
+  console.log(req.body.email);
+  
+  const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
 
 // create reusable transporter object using the default SMTP transport
 // Following three blocks of code are sourced from https://nodemailer.com/about/
@@ -64,17 +74,17 @@ app.post('/send',(req, res) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: 'voter.info.cs361@gmail.com', // generated ethereal user
-            pass: 'osucs361'  // generated ethereal password
+            user: 'voter.info.cs361@gmail.com', 
+            pass: 'osucs361'  
 
         }
     });
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: 'VOTE"✔" <voter.info.cs361@gmail.com>', // sender address
+        from: 'VOTE✔LOCAL <voter.info.cs361@gmail.com>', // sender address
         to: 'kierind@gmail.com, kierind@yahoo.com', // list of receivers
-        subject: 'Hello Vote ✔ test message cs361', // Subject line
+        subject: 'VOTE✔LOCAL test message cs361', // Subject line
         text: 'Vote message test', // plain text body
         html:  output// html body
     
@@ -88,7 +98,7 @@ app.post('/send',(req, res) => {
         console.log('Message sent: %s', info.messageId);
         // Preview only available when sending through an Ethereal account
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
+        res.render('subscription');
     });
 
 

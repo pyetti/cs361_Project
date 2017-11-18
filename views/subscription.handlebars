@@ -9,15 +9,21 @@
   <div class="container">
     <h3>Generate Message</h3>
       <div class="form_page">
-        <form method="POST" action="send">
+        <form id ="message-form" method="POST" action="send">
+ 
+          <p class="form_block">
+            <label for="email"> Email Recipient </label>
+            <input type="email" name="email">
+          </p>
           <p class="form_block">
             <label>Message</label>
-            <textarea name="message" rows="5"></textarea>
+            <textarea name="message" rows="10"></textarea>
           </p>
           <p class="form_block">
             <button type="submit">Submit</button>
           </p>
         </form>
+        <div class="form_block"> {{receipt}} </div>
       </div>
   </div>
 </body>
