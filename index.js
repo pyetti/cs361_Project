@@ -76,13 +76,9 @@ app.post('/registerUser', function(req, res, next) {
 });
 
 app.get('/message', (req, res)=>{
-  //  res.status(200);
+    res.status(200);
     res.render('subscription');
 });
-//app.post('/login', urlencodedParser, function (req, res) {
-//  if (!req.body) return res.sendStatus(400)
-//  res.send('welcome, ' + req.body.username)
-//})
 
 
 
@@ -109,7 +105,7 @@ app.post('/send', urlencodedParser, function(req, res) {
     // setup email data with unicode symbols
     let mailOptions = {
         from: 'VOTE✔LOCAL <voter.info.cs361@gmail.com>', // sender address
-        to: 'kierind@gmail.com, kierind@yahoo.com', // list of receivers
+        to: req.body.email, // list of receivers
         subject: 'VOTE✔LOCAL test message cs361', // Subject line
         text: 'Vote message test', // plain text body
         html:  output// html body
