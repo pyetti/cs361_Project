@@ -3,7 +3,7 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
 //var userDb = require('./modules/userDb.js'); // Add the user database file
-
+var nodemailer = require('nodemailer');
 var app = express();
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -33,7 +33,7 @@ app.get('/getElectionInfo', function(req, res, next) {
 });
 
 
-app.get('/subscribe', function(req,res) {
+app.get('/old', function(req,res) {
   res.status(200);
   var context = {};
   context.message = "Search for elections";
@@ -48,7 +48,7 @@ app.post('/registerUser', function(req, res, next) {
   user.registerUser(req, res, next);
 });
 
-app.get('/msguser', (req, res)=>{
+app.get('/message', (req, res)=>{
   //  res.status(200);
     res.render('subscription');
 });
