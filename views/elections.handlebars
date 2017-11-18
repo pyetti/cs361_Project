@@ -1,24 +1,65 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-			<form id="election-search-form" action="/getElectionInfo" method="get">
+			<form id="election-search-form" action="/getLocalInfo" method="get">
 			  <div class="form-group">
-			    <label for="zipcode">Find Elections in Your Area</label>
-			    <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code - e.g. 32216">
+			    <label for="zipcode">Find Local Elections and Propositions</label>
+			    <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code - e.g. 90640">
 			  </div>
 			  <button id="submit-election-search" type="submit" class="btn btn-default">Submit</button>
 			</form>
 		</div>
-		<div class="col-md-8">
-			<p id="electionInfo"></p>
+	</div>
+
+	<div class="row">
+		<div class="election-search-results">
+			{{#if electionInfo }}
+				<div class="col-md-6">
+					<div class="table-responsive">
+						<table class="table table-striped table-condensed table-hover">
+							<caption>Local Elections</caption>
+							<thead>
+								<tr><th>Title</th><th>Election Date</th></tr>
+							</thead>
+							<tbody>
+								{{#each electionInfo }}
+									<tr class="clickable-row" id="{{ this.election_id }}" data-href="/getElectionDetail?electionId={{ this.election_id }}"><td>{{ this.title }}</td><td>{{ this.election_date }}</td></tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{{/if}}
+		</div>
+
+		<div class="proposition-search-results">
+			{{#if propositionInfo }}
+				<div class="col-md-6">
+					<div class="table-responsive">
+						<table class="table table-striped table-condensed table-hover">
+							<caption>Local Propositions</caption>
+							<thead>
+								<tr><th>Title</th><th>Date of Vote</th></tr>
+							</thead>
+							<tbody>
+								{{#each propositionInfo }}
+									<tr class="clickable-row" id="{{ this.proposition_id }}" data-href="/getElectionDetail?propositionId={{ this.proposition_id }}"><td>{{ this.title }}</td><td>{{ this.date }}</td></tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{{/if}}
 		</div>
 	</div>
 </div>
 
-<div class="invalid-zipCode container">
+{{#if invalidZipCode }}
+	<div class="invalid-zipCode container">
 	<div class="row">
 		<div class="col-md-12">
-			<p id="invalid-zipCode-message"></p>
+			<p id="invalid-zipCode-message">{{ invalidZipCode }}</p>
 		</div>
 	</div>
 </div>
+{{/if}}

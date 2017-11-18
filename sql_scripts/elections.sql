@@ -20,6 +20,16 @@ CREATE TABLE IF NOT EXISTS locations (
 INSERT INTO locations (city, state, zipcode)
 VALUES ('Montebello', 'California', '90640');
 
+-- Table structure for table PoliticalParties
+CREATE TABLE IF NOT EXISTS politicalParties (
+	politcal_party_id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(50) NOT NULL,
+	PRIMARY KEY (politcal_party_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO politicalParties (name)
+VALUES ('Republican'), ('Democrat'), ('Independent'), ('Green');
+
 
 -- Table structure for table elections
 CREATE TABLE IF NOT EXISTS elections (
@@ -47,8 +57,8 @@ CREATE TABLE IF NOT EXISTS propositions (
 	CONSTRAINT fk_props_location_id FOREIGN KEY (location_id) REFERENCES elections (election_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO propositions (title, location_id, description)
-VALUES ('Measure T: Montebello Term Limits', (SELECT location_id FROM locations WHERE city='Montebello' AND state='California' AND zipcode='90640'), 'Shall the terms served by elected officials of the City of Montebello, including members of the City Council, the City Treasurer, and the City Clerk, be limited to not more than three (3) consecutive four (4) year terms, after which an elected official shall not be qualified to serve in that elected office for a period of four (4) years?');
+INSERT INTO propositions (title, location_id, description, date_of_vote)
+VALUES ('Measure T: Montebello Term Limits', (SELECT location_id FROM locations WHERE city='Montebello' AND state='California' AND zipcode='90640'), 'Shall the terms served by elected officials of the City of Montebello, including members of the City Council, the City Treasurer, and the City Clerk, be limited to not more than three (3) consecutive four (4) year terms, after which an elected official shall not be qualified to serve in that elected office for a period of four (4) years?', '2017-12-10');
 
 
 -- Table structure for table candidates
@@ -57,17 +67,19 @@ CREATE TABLE IF NOT EXISTS candidates (
 	first_name varchar(50) NOT NULL,
 	last_name varchar(50) NOT NULL,
 	election_id int(11) NOT NULL,
+	politcal_party_id int(11) NOT NULL,
 	PRIMARY KEY (candidate_id),
-	CONSTRAINT fk_c_election_id FOREIGN KEY (election_id) REFERENCES elections (election_id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_c_election_id FOREIGN KEY (election_id) REFERENCES elections (election_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_c_politcal_party_id FOREIGN KEY (politcal_party_id) REFERENCES politicalParties (politcal_party_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO candidates (first_name, last_name, election_id)
-VALUES 	('Joe', 'Smith', (SELECT e.election_id FROM elections e JOIN locations l ON e.location_id = l.location_id WHERE title='City Comptroller' AND city='Montebello' AND state='California' AND zipcode='90640' AND election_date='2017-12-05')),
-		('Fred', 'Thompson', (SELECT e.election_id FROM elections e JOIN locations l ON e.location_id = l.location_id WHERE title='City Comptroller' AND city='Montebello' AND state='California' AND zipcode='90640' AND election_date='2017-12-05'));
-
-
-
-
+INSERT INTO candidates (first_name, last_name, election_id, politcal_party_id)
+VALUES 	('Joe', 'Smith',
+	(SELECT e.election_id FROM elections e JOIN locations l ON e.location_id = l.location_id WHERE title='City Comptroller' AND city='Montebello' AND state='California' AND zipcode='90640' AND election_date='2017-12-05'),
+	(SELECT politcal_party_id FROM politicalParties WHERE name='Republican')),
+		('Fred', 'Thompson',
+	(SELECT e.election_id FROM elections e JOIN locations l ON e.location_id = l.location_id WHERE title='City Comptroller' AND city='Montebello' AND state='California' AND zipcode='90640' AND election_date='2017-12-05'),
+	(SELECT politcal_party_id FROM politicalParties WHERE name='Democrat'));
 
 
 
