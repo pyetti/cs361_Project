@@ -14,3 +14,8 @@ hbs.registerHelper('trimString', function(str, start, stop) {
   if (str.length > stop) { return str.substring(start, stop) + '...'; }
   return str;
 });
+
+hbs.registerHelper('ifEven', function(index) {
+	if (index % 2 == 0) { return true; }
+	return false;
+});

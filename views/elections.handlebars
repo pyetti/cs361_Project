@@ -23,7 +23,7 @@
 							</thead>
 							<tbody>
 								{{#each electionInfo }}
-									<tr class="clickable-row" id="{{ this.election_id }}" data-href="/getElectionDetail?electionId={{ this.election_id }}"><td>{{ this.title }}</td><td>{{ this.election_date }}</td></tr>
+									<tr class="clickable-row" id="{{ this.election_id }}" data-href="/getElectionDetails?electionId={{ this.election_id }}"><td>{{ this.title }}</td><td>{{ this.election_date }}</td></tr>
 								{{/each}}
 							</tbody>
 						</table>
@@ -43,7 +43,7 @@
 							</thead>
 							<tbody>
 								{{#each propositionInfo }}
-									<tr class="clickable-row" id="{{ this.proposition_id }}" data-href="/getElectionDetail?propositionId={{ this.proposition_id }}"><td>{{ this.title }}</td><td>{{ this.date }}</td></tr>
+									<tr class="clickable-row" id="{{ this.proposition_id }}" data-href="/getPropositionDetails?propositionId={{ this.proposition_id }}"><td>{{ this.title }}</td><td>{{ this.date }}</td></tr>
 								{{/each}}
 							</tbody>
 						</table>
