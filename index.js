@@ -21,20 +21,42 @@ app.use(express.static('public'));
 app.get('/', function(req,res) {
   res.status(200);
   var context = {};
+  context.pageTitle = "Home - Election Search";
   context.message = "Search for elections by Zip Code";
   res.render('elections', context);
 });
 
 app.get('/getLocalInfo', function(req, res, next) {
-  var context = {};
   if (!req.query.zipcode || req.query.zipcode.length != 5 || isNaN(req.query.zipcode)) {
+    var context = {};
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
   } else {
     electionsDb.getElectionInfo(req, res, next);
   }
+});
 
+app.get('/getElectionDetails', function(req, res, next) {
+  if (!req.query.electionId || isNaN(req.query.electionId)) {
+    var context = {};
+    context.invalidZipCode = "Invalid zip code";
+    res.status(200);
+    res.render('elections', context);
+  } else {
+    electionsDb.getElectionDetails(req, res, next);
+  }
+});
+
+app.get('/getPropositionDetails', function(req, res, next) {
+  if (!req.query.propositionId || isNaN(req.query.propositionId)) {
+    var context = {};
+    context.invalidZipCode = "Invalid zip code";
+    res.status(200);
+    res.render('elections', context);
+  } else {
+    electionsDb.getPropositionDetails(req, res, next);
+  }
 });
 
 
@@ -63,12 +85,12 @@ app.get('/message', (req, res)=>{
 //})
 
 
- 
+
 app.post('/send', urlencodedParser, function(req, res) {
- 
- 
+
+
   console.log(req.body.email);
-  
+
   const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
 
 // create reusable transporter object using the default SMTP transport
@@ -78,8 +100,8 @@ app.post('/send', urlencodedParser, function(req, res) {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: 'voter.info.cs361@gmail.com', 
-            pass: 'osucs361'  
+            user: 'voter.info.cs361@gmail.com',
+            pass: 'osucs361'
 
         }
     });
