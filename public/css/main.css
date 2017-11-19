@@ -28,32 +28,33 @@
 	margin: 0 0 15px 0;
 }
 
-.election-detail-title {
-	font-size: 2em;
-}
-
-.election-detail-date {
-	font-size: 1.5em;
-}
-
 .election-detail-candidate-party {
 	font-weight: bold;
 	font-size: 1.2em;
+	border-bottom: 1px dotted black;
+}
+
+.election-candidates {
+	margin-top: 30px;
+}
+
+.election-candidate {
+	padding: 0 5px 0 8px;
 }
 
 .proposition-detail {
 
 }
 
-.proposition-header {
+.proposition-header, .election-header {
 	border-bottom: 1px solid black;
 }
 
-.proposition-detail-title {
+.proposition-detail-title, .election-detail-title {
 	font-size: 2em;
 }
 
-.proposition-detail-date {
+.proposition-detail-date, .election-detail-date {
 	font-size: 1.5em;
 	text-align: right;
 }
