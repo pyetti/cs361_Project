@@ -24,5 +24,5 @@ CREATE TABLE IF NOT EXISTS useraccount (
 INSERT INTO useraccount (username, email, party, password, password2, zipcode,  reminder, newsletter)
 VALUES ('Snoopy', 'voter.info.cs361@gmail.com', 'independant', 'guest', 'guest',  99901, 1, 1);
 
-
+INSERT INTO useraccount (username, email, password, password2, zipcode, party, reminder, newsletter) values (?, ?, ?, ?, ?, ?, ?, ?)
 
