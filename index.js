@@ -60,10 +60,7 @@ app.get('/login', function(req, res, next) {
   res.render('login', context);
 });
 
-app.get('/registeruser', function(req, res, next) {
-  userDb.register(req, res, next);
 
-});
 
 
 app.get('/getPropositionDetails', function(req, res, next) {
@@ -89,7 +86,7 @@ app.get('/old', function(req,res) {
 
 
 
-app.post('/registerUser', function(req, res, next) {
+app.post('/registeruser', function(req, res, next) {
  // user.registerUser(req, res, next);
   console.log(req.body);
 

@@ -12,11 +12,13 @@ function registerUser (req, res, errorHandler) {
         params.push(context[param]);
     }
 	console.log(req.body);
+
 	
 	var insertSQl = 'INSERT INTO useraccount (`username`, `email`,`password`, `password2`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?,?,?,?,?,?,1,1)';
 	
-	dbConfig.pool.query(insertSQL, params, function(err, rows, fields) {
 
+
+	dbConfig.pool.query('INSERT INTO useraccount (`username`, `email`,`password`, `password2`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?,?,?,?,?,?,1,1)', params, function(err, rows, fields) {
 		if (err) {
 			errorHandler(err);
 			return;
