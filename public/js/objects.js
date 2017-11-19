@@ -5,7 +5,7 @@ function messageAgent(firstName, lastName, email){
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.blankHtml =  <!DOCTYPE html>
+    this.blankHtml =  '<!DOCTYPE html>
         <html>
           <head>
           </head>
@@ -13,7 +13,7 @@ function messageAgent(firstName, lastName, email){
             <div id="msgData"</div>
 
           </body>
-        </html>`;
+        </html>';
 
     this.packageMessage = function(){
 
