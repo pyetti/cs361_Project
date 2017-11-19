@@ -4,7 +4,6 @@
 
 .href:hover {
 	text-decoration: none;
-	color: lightblue;
 }
 
 .header {
@@ -22,6 +21,10 @@
 
 .clickable-row {
 	cursor: pointer;
+}
+
+.clickable-row:hover{
+	background-color: lightblue !important;
 }
 
 .election-detail {
@@ -91,4 +94,6 @@ select {
   border:1px solid #CCC
 }
 
-
+.error-message {
+	color: red;
+}
