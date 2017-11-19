@@ -1,12 +1,11 @@
 
-
 <input type='checkbox' id='form-switch'>
 <form id='register-form' action="registeruser" method='post'>
   <h2>Account Creation</h2>
   <input type="text" name="username" placeholder="Username" required>
   <input type="text" name="email" placeholder="Email" required>
-  <input type="text" name="password" placeholder="Password" required>
-  <input type="text" name="retypepw" placeholder="Re-type Password" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <input type="password" name="retypepw" placeholder="Re-type Password" required>
   <input type="text" name= "zipcode" placeholder="Zip Code" required>
   
   <select name="party">
@@ -25,6 +24,7 @@
    <input type="checkbox" value="Newsletter"> Receive an election newsletter<br>
    <br>
   <button type='submit'>Register</button>
+
   <label for='form-switch'>Have an account? Click here. </label>
 </form>
 <form id='login-form' action="" method='post'>
@@ -34,4 +34,7 @@
   <br><br><br>
   <button type='submit'>Login</button>
   <label for='form-switch'><span>Register</span></label>
+
+  <a href="/login"><span>Have an Account? Click here.</span></a>
+
 </form>
