@@ -25,4 +25,12 @@
 			</div>
 		{{/each}}
 	</div>
+	<div class="row">
+		<div class="col-md-12 back-button">
+			{{#each electionDetail }}
+				<a href="/getLocalInfo?zipcode={{ zipcode }}"><button class="btn btn-primary">Back to Results</button></a>
+			{{/each}}
+		</div>
+	</div>
 </div>
+
