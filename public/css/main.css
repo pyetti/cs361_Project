@@ -62,6 +62,7 @@
 	margin: 20px;
 }
 
+
 form {
   margin:0 auto;
   width:300px
@@ -85,15 +86,5 @@ select {
   width: 100%;
   border:1px solid #CCC
 }
-#form-switch {
-  display:none
-}
-#login-form {
-  display:none
-}
-#form-switch:checked~#login-form {
-  display:block
-}
-#form-switch:checked~#register-form {
-  display:none
-}
+
+
