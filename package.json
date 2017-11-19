@@ -24,6 +24,7 @@
     "nodemailer": "^4.4.0"
   },
   "devDependencies": {
+    "forever": "^0.15.3",
     "grunt-contrib-copy": "^1.0.0"
   }
 }
