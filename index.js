@@ -90,7 +90,12 @@ app.get('/old', function(req,res) {
 
 
 app.post('/registerUser', function(req, res, next) {
-  user.registerUser(req, res, next);
+ // user.registerUser(req, res, next);
+  console.log(req.body);
+
+  userDb.register(req,res,next);        // FIXME
+
+
 });
 
 app.get('/message', (req, res)=>{
