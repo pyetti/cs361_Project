@@ -3,10 +3,11 @@ var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var electionsDb = require('./modules/electionsDb.js');
-var userDb = require('./modules/userDb.js'); // Add the user database file
+var userDb = require('./modules/userDb.js');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var hbs = require('./modules/hbsHelper.js');
+var sessionManager = require('./modules/sessionManager.js');
 
 var app = express();
 
@@ -19,8 +20,12 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.get('/', function(req,res) {
-  res.status(200);
   var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
+
+  res.status(200);
   context.pageTitle = "Home - Election Search";
   context.message = "Search for elections by Zip Code";
   res.render('elections', context);
@@ -29,6 +34,9 @@ app.get('/', function(req,res) {
 app.get('/getLocalInfo', function(req, res, next) {
   if (!req.query.zipcode || req.query.zipcode.length != 5 || isNaN(req.query.zipcode)) {
     var context = {};
+    if (sessionManager.sessionExists(req)) {
+      context.sessionExists = true;
+    }
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
@@ -40,11 +48,28 @@ app.get('/getLocalInfo', function(req, res, next) {
 app.get('/getElectionDetails', function(req, res, next) {
   if (!req.query.electionId || isNaN(req.query.electionId)) {
     var context = {};
+    if (sessionManager.sessionExists(req)) {
+      context.sessionExists = true;
+    }
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
   } else {
     electionsDb.getElectionDetails(req, res, next);
+  }
+});
+
+app.get('/getPropositionDetails', function(req, res, next) {
+  if (!req.query.propositionId || isNaN(req.query.propositionId)) {
+    var context = {};
+    if (sessionManager.sessionExists(req)) {
+      context.sessionExists = true;
+    }
+    context.invalidZipCode = "Invalid zip code";
+    res.status(200);
+    res.render('elections', context);
+  } else {
+    electionsDb.getPropositionDetails(req, res, next);
   }
 });
 
@@ -60,20 +85,21 @@ app.get('/login', function(req, res, next) {
   res.render('login', context);
 });
 
-
-
-
-app.get('/getPropositionDetails', function(req, res, next) {
-  if (!req.query.propositionId || isNaN(req.query.propositionId)) {
-    var context = {};
-    context.invalidZipCode = "Invalid zip code";
-    res.status(200);
-    res.render('elections', context);
-  } else {
-    electionsDb.getPropositionDetails(req, res, next);
-  }
+app.post('/userLogin', function(req, res, next) {
+  userDb.userLogin(req, res, next);
 });
 
+app.get('/logout', function(req, res, next) {
+  if (req.session.name) {
+    console.log("Logging out user " + req.session.name);
+    sessionManager.killUserSession(req);
+    req.status = 200;
+    res.render('elections');
+  } else {
+    console.log("User attempted to logout but is not logged in");
+    res.redirect('/login');
+  }
+});
 
 app.get('/old', function(req,res) {
   res.status(200);
@@ -148,17 +174,26 @@ app.post('/send', urlencodedParser, function(req, res) {
         res.render('subscription', {updateForm:'Message sent'});
 
 })
-app.use(function(req,res){
+
+app.use(function(req,res) {
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
   res.type('text/plain');
   res.status(404);
-  res.send('404 - Not Found');
+  res.render('400', context);
 });
 
 app.use(function(err, req, res, next){
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
   console.error(err.stack);
   res.type('plain/text');
   res.status(500);
-  res.send('500 - Server Error');
+  res.render('500', context);
 });
 
 app.listen(app.get('port'), function(){
