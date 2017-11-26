@@ -16,10 +16,17 @@
 				<a class="href h1" href="/"><span class="">VOTE✔LOCAL</span></a>
 			</div>
 			<div class="col-md-6">
-				<div class="text-right user-auth-buttons">
-					<a href="/login"><button class="btn btn-primary text-right">Login</button></a>
-				<a href="/register"><button class="btn btn-primary text-right">Register</button></a>
-				</div>
+				{{#if sessionExists }}
+					<div class="text-right user-auth-buttons">
+						<a id="profile-button" href="/logout"><button class="btn btn-primary text-right">Profile</button></a>
+						<a href="/logout"><button class="btn btn-primary text-right">Logout</button></a>
+					</div>
+				{{else}}
+					<div class="text-right user-auth-buttons">
+						<a href="/login"><button class="btn btn-primary text-right">Login</button></a>
+						<a href="/register"><button class="btn btn-primary text-right">Register</button></a>
+					</div>
+				{{/if}}
 			</div>
 		</div>
 	</div>
