@@ -8,23 +8,21 @@ module.exports = {
 }
 
 function registerUser (req, res, errorHandler) {
-	var context = {};
-	var params = [];
-	context = req.body;
-	for (var param in context) {
-        params.push(context[param]);
-    }
-	console.log(req.body);
+	var params = getParamsFromBody(req.body);
 
-	var insertSQl = 'INSERT INTO useraccount (`username`, `email`,`password`, `password2`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?,?,?,?,?,?,1,1)';
+	var registerSql = "INSERT INTO users (`username`, `email`, `password`, `zipcode`, `party`, `reminders`, `newsletter`) VALUES (?, ?, ?, ?, ?, 1, 1)"; //Fix for reminders/newletter
 
-	dbConfig.pool.query('INSERT INTO useraccount (`username`, `email`,`password`, `password2`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?,?,?,?,?,?,1,1)', params, function(err, rows, fields) {
+	dbConfig.pool.query(registerSql, params, function(err, rows, fields) {
 		if (err) {
 			errorHandler(err);
+			req.status = 500;
 			return;
 		}
-		context.message = "Success";
+		else {
+		var context = {};
+		context.successful = "Success";
 		res.redirect("/login");
+		}
 	});
 }
 
@@ -44,7 +42,7 @@ function userLoginFunction (req, res, errorHandler) {
 		    res.redirect('/');
 		  } else {
 		  	var context = {};
-		    context.loginFailed = "User not found.";
+		    context.loginFailed = "User not found or username and password do not match.";
 		    req.status = 200;
 		    res.render('login', context);
 		  }
@@ -60,4 +58,4 @@ function getParamsFromBody (reqBody) {
     return params;
 }
 
-var userLoginSql = "SELECT count(username) as 'User' FROM useraccount WHERE username = ? AND password = ?";
+var userLoginSql = "SELECT count(username) as 'User' FROM users WHERE username = ? AND password = ?";

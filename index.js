@@ -79,6 +79,11 @@ app.get('/register', function(req, res, next) {
   res.render('register', context);
 });
 
+app.post('/registerUser', function(req, res, next) {
+  userDb.register(req, res, next);
+});
+
+
 app.get('/login', function(req, res, next) {
   var context = {};
   res.status(200);
@@ -108,18 +113,6 @@ app.get('/old', function(req,res) {
   res.render('subscription', context);
 });
 
-
-
-
-
-app.post('/registeruser', function(req, res, next) {
- // user.registerUser(req, res, next);
-  console.log(req.body);
-
-  userDb.register(req,res,next);        // FIXME
-
-
-});
 
 app.get('/message', (req, res)=>{
     res.status(200);
@@ -182,7 +175,7 @@ app.use(function(req,res) {
   }
   res.type('text/plain');
   res.status(404);
-  res.render('400', context);
+  res.render('404', context);
 });
 
 app.use(function(err, req, res, next){
