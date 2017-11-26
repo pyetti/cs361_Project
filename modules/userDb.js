@@ -4,7 +4,8 @@ var sessionManager = require( path.resolve( __dirname, "./sessionManager.js" ) )
 
 module.exports = {
 	register : registerUser,
-	userLogin : userLoginFunction
+	userLogin : userLoginFunction,
+	updateUser : updateUserInfo
 }
 
 function registerUser (req, res, errorHandler) {
@@ -24,6 +25,24 @@ function registerUser (req, res, errorHandler) {
 		res.redirect("/login");
 		}
 	});
+}
+
+function updateUserInfo(req, res, errorHandler) {
+	var params = getParamsFromBody(req.body);
+
+	var updateSql = "UPDATE users SET `username` = ?, `email` = ?, `password` = ?, `zipcode` = ?, `party` = ?, `reminders` = 1, `newsletter` = 0 WHERE `id`= 1"; //FIX FOR ID - ADD TO SESSION?
+
+	dbConfig.pool.query(updateSql, params, function(err, rows, fields) {
+		if (err) {
+			errorHandler(err);
+			req.status = 500;
+			return;
+		}
+		else {
+		res.redirect("/profile");
+		}
+	})
+
 }
 
 function userLoginFunction (req, res, errorHandler) {

@@ -90,6 +90,23 @@ app.get('/login', function(req, res, next) {
   res.render('login', context);
 });
 
+app.get('/profile', function(req, res, next) {
+  var context = {};
+  res.status(200);
+  res.render('profile', context);
+});
+
+app.get('/editProfile', function(req, res, next){
+    var context = {};
+  res.status(200);
+  res.render('editProfile', context);
+});
+
+app.post('/updateUser', function(req, res, next) {
+  userDb.updateUser(req, res, next);
+});
+
+
 app.post('/userLogin', function(req, res, next) {
   userDb.userLogin(req, res, next);
 });
