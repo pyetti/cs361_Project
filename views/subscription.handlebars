@@ -10,11 +10,19 @@
     <h3>Generate Message</h3>
       <div class="form_page">
         <form id ="message-form" method="POST" action="send">
- 
-          <p class="form_block">
+  				<div>
+          	<input type="radio" name="emailOption" onclick="hide();" id="userdbOption" >
+          	<label for="userdbOption">Email Subscribers</label>
+          </div>
+          <div>	
+            <input type="radio" name="emailOption"onclick="show();" id="inputOption">
+            <label for="inputOption"> Enter Email Address</label>
+          <div id="mBox">
             <label for="email"> Email Recipient </label>
-            <input type="email" name="email">
-          </p>
+            <div class="IfActive">
+              <input type="email" name="email">
+            </div>
+          </div>   
           <p class="form_block">
             <label for="message">Message</label>
             <textarea name="message" rows="10"></textarea>

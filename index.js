@@ -7,9 +7,11 @@ var userDb = require('./modules/userDb.js'); // Add the user database file
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var hbs = require('./modules/hbsHelper.js');
-//Route objects
+
+//Create route objects
 var user_tests = require('./routes/user_tests')
 var send = require('./routes/send')
+
 var app = express();
 
 hbs.registerHandlebars(app, handlebars);
@@ -20,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.use('/user-tests', user_tests)
 
 app.get('/', function(req,res) {
   res.status(200);
@@ -79,11 +80,11 @@ app.get('/getPropositionDetails', function(req, res, next) {
 });
 
 
-app.get('/old', function(req,res) {
+app.get('/voterinformation', function(req,res) {
   res.status(200);
   var context = {};
   context.message = "Search for elections";
-  res.render('subscription', context);
+  res.render('voterRegistrationInfo', context);
 });
 
 
@@ -104,8 +105,10 @@ app.get('/message', (req, res)=>{
     res.render('subscription');
 });
 
+
 app.use('/send', send)
 
+app.use('/user-tests', user_tests)
 
 app.use(function(req,res){
   res.type('text/plain');
