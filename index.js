@@ -1,6 +1,6 @@
 var express = require('express');
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); //Is it needed here?
 var session = require('express-session');
 var electionsDb = require('./modules/electionsDb.js');
 var userDb = require('./modules/userDb.js');
@@ -8,6 +8,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var hbs = require('./modules/hbsHelper.js');
 var sessionManager = require('./modules/sessionManager.js');
+
+//Create route objects
+var user_tests = require('./routes/user_tests')
+var send = require('./routes/send')
 
 var app = express();
 
@@ -18,6 +22,7 @@ app.use(session({secret:'_qJ$_fuRZueuMrD8TCMgH6WL**h^PH'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
 
 app.get('/', function(req,res) {
   var context = {};
@@ -123,11 +128,12 @@ app.get('/logout', function(req, res, next) {
   }
 });
 
-app.get('/old', function(req,res) {
+
+app.get('/voterinformation', function(req,res) {
   res.status(200);
   var context = {};
   context.message = "Search for elections";
-  res.render('subscription', context);
+  res.render('voterRegistrationInfo', context);
 });
 
 
@@ -137,53 +143,10 @@ app.get('/message', (req, res)=>{
 });
 
 
+app.use('/send', send)
 
-app.post('/send', urlencodedParser, function(req, res) {
+app.use('/user-tests', user_tests)
 
-
-  console.log(req.body.email);
-
-  const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
-
-// create reusable transporter object using the default SMTP transport
-// Following three blocks of code are sourced from https://nodemailer.com/about/
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: 'voter.info.cs361@gmail.com',
-            pass: 'osucs361'
-
-        }
-    });
-
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: 'VOTE✔LOCAL <voter.info.cs361@gmail.com>', // sender address
-        to: req.body.email, // list of receivers
-        subject: 'VOTE✔LOCAL test message cs361', // Subject line
-        text: req.body.message, // plain text body
-        html:  output// html body
-
-    };
-
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-        // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    });
-
-
-
-
-        res.render('subscription', {updateForm:'Message sent'});
-
-})
 
 app.use(function(req,res) {
   var context = {};
