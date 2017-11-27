@@ -1,17 +1,19 @@
 var path = require('path');
 var dbConfig = require('../dbcon.js');
-var sessionManager = require( path.resolve( __dirname, "./sessionManager.js" ) );
+var sessionManager = require( path.resolve( __dirname, "./sessionManager.js" ));
+var userObject = require( path.resolve( __dirname, "./User.js" ));
 
 module.exports = {
 	register : registerUser,
 	userLogin : userLoginFunction,
+	getUserProfile : getUserProfileFunction,
 	updateUser : updateUserInfo
 }
 
 function registerUser (req, res, errorHandler) {
 	var params = getParamsFromBody(req.body);
 
-	var registerSql = "INSERT INTO users (`username`, `email`, `password`, `zipcode`, `party`, `reminders`, `newsletter`) VALUES (?, ?, ?, ?, ?, 1, 1)"; //Fix for reminders/newletter
+	var registerSql = "INSERT INTO useraccount (`username`, `email`, `password`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?, ?, ?, ?, ?, 1, 1)"; //Fix for reminders/newletter
 
 	dbConfig.pool.query(registerSql, params, function(err, rows, fields) {
 		if (err) {
@@ -30,7 +32,7 @@ function registerUser (req, res, errorHandler) {
 function updateUserInfo(req, res, errorHandler) {
 	var params = getParamsFromBody(req.body);
 
-	var updateSql = "UPDATE users SET `username` = ?, `email` = ?, `password` = ?, `zipcode` = ?, `party` = ?, `reminders` = 1, `newsletter` = 0 WHERE `id`= 1"; //FIX FOR ID - ADD TO SESSION?
+	var updateSql = "UPDATE useraccount SET `username` = ?, `email` = ?, `password` = ?, `zipcode` = ?, `party` = ?, `reminders` = 1, `newsletter` = 0 WHERE `id`= 1"; //FIX FOR ID - ADD TO SESSION?
 
 	dbConfig.pool.query(updateSql, params, function(err, rows, fields) {
 		if (err) {
@@ -41,8 +43,7 @@ function updateUserInfo(req, res, errorHandler) {
 		else {
 		res.redirect("/profile");
 		}
-	})
-
+	});
 }
 
 function userLoginFunction (req, res, errorHandler) {
@@ -55,9 +56,12 @@ function userLoginFunction (req, res, errorHandler) {
 			return;
 		}
 
-		if (rows[0].User) {
+		if (rows[0] && rows[0].username) {
 		    req.status = 200;
 		    sessionManager.setUserSessionName(req);
+		    var user = new userObject.User(rows[0].username, rows[0].email, '',
+		    	rows[0].zipcode, rows[0].party, rows[0].reminder, rows[0].newsletter);
+		    sessionManager.put(req, "user", user);
 		    res.redirect('/');
 		  } else {
 		  	var context = {};
@@ -65,6 +69,22 @@ function userLoginFunction (req, res, errorHandler) {
 		    req.status = 200;
 		    res.render('login', context);
 		  }
+	});
+}
+
+function getUserProfileFunction (req, res, errorHandler) {
+	var params = {};
+	params.push(req.session.name);
+	dbConfig.pool.query(getUserProfileSQL, params, function(err, rows, fields) {
+		if (err) {
+			errorHandler(err);
+			req.status = 500;
+			return;
+		}
+		var context = {};
+		if (rows[0].username) {
+
+		}
 	});
 }
 
@@ -77,4 +97,16 @@ function getParamsFromBody (reqBody) {
     return params;
 }
 
-var userLoginSql = "SELECT count(username) as 'User' FROM users WHERE username = ? AND password = ?";
+var userLoginSql = "SELECT `username`, `email`, `zipcode`, `party`, `reminder`, `newsletter` FROM useraccount WHERE username = ? AND password = ?";
+var getUserProfileSQL = "SELECT `username`, `email`, `password`, `zipcode`, `party`, `reminder`, `newsletter` FROM useraccount WHERE useraccount = ?;";
+
+
+
+
+
+
+
+
+
+
+

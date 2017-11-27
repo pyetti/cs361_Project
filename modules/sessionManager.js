@@ -1,7 +1,9 @@
 module.exports = {
 	setUserSessionName: setUserSessionNameFunction,
 	sessionExists: sessionExistsFunction,
-	killUserSession: killUserSessionFunction
+	killUserSession: killUserSessionFunction,
+	put: put,
+	get: get
 }
 
 function setUserSessionNameFunction(req) {
@@ -13,5 +15,13 @@ function sessionExistsFunction (req) {
 }
 
 function killUserSessionFunction (req) {
-	req.session.name = null;
+	req.session.destroy();
+}
+
+function put (req, key, value) {
+	req.session.key = value;
+}
+
+function get (req, key) {
+	return req.session.key;
 }

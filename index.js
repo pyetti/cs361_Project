@@ -32,11 +32,12 @@ app.get('/', function(req,res) {
 });
 
 app.get('/getLocalInfo', function(req, res, next) {
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
+
   if (!req.query.zipcode || req.query.zipcode.length != 5 || isNaN(req.query.zipcode)) {
-    var context = {};
-    if (sessionManager.sessionExists(req)) {
-      context.sessionExists = true;
-    }
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
@@ -46,11 +47,12 @@ app.get('/getLocalInfo', function(req, res, next) {
 });
 
 app.get('/getElectionDetails', function(req, res, next) {
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
+
   if (!req.query.electionId || isNaN(req.query.electionId)) {
-    var context = {};
-    if (sessionManager.sessionExists(req)) {
-      context.sessionExists = true;
-    }
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
@@ -60,11 +62,12 @@ app.get('/getElectionDetails', function(req, res, next) {
 });
 
 app.get('/getPropositionDetails', function(req, res, next) {
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
+
   if (!req.query.propositionId || isNaN(req.query.propositionId)) {
-    var context = {};
-    if (sessionManager.sessionExists(req)) {
-      context.sessionExists = true;
-    }
     context.invalidZipCode = "Invalid zip code";
     res.status(200);
     res.render('elections', context);
@@ -92,12 +95,22 @@ app.get('/login', function(req, res, next) {
 
 app.get('/profile', function(req, res, next) {
   var context = {};
-  res.status(200);
-  res.render('profile', context);
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+    context.user = sessionManager.get(req, "user");
+    res.status(200);
+    res.render('profile', context);
+  } else {
+    res.status(200);
+    res.redirect('/login');
+  }
 });
 
 app.get('/editProfile', function(req, res, next){
-    var context = {};
+  var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
   res.status(200);
   res.render('editProfile', context);
 });
