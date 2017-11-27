@@ -128,12 +128,8 @@ app.get('/logout', function(req, res, next) {
   }
 });
 
-<<<<<<< HEAD
 
 app.get('/voterinformation', function(req,res) {
-=======
-app.get('/old', function(req,res) {
->>>>>>> 54e04ad91da754a4b8ccab1f0df0a23d867ee6d3
   res.status(200);
   var context = {};
   context.message = "Search for elections";
@@ -151,17 +147,12 @@ app.use('/send', send)
 
 app.use('/user-tests', user_tests)
 
-<<<<<<< HEAD
-app.use(function(req,res){
-=======
-})
 
 app.use(function(req,res) {
   var context = {};
   if (sessionManager.sessionExists(req)) {
     context.sessionExists = true;
   }
->>>>>>> 54e04ad91da754a4b8ccab1f0df0a23d867ee6d3
   res.type('text/plain');
   res.status(404);
   res.render('404', context);

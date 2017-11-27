@@ -40,7 +40,7 @@ router.get('/emails', function (req, res, next) {
  
  
 // res.send('user_tests')
-})
+});
 
 
 // define the about route

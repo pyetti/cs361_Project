@@ -3,7 +3,7 @@ var router = express.Router()
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
-
+var mysql = require('../dbcon.js');
 
 
 
@@ -19,13 +19,40 @@ router.use(function timeLog (req, res, next) {
 
 router.post('/', urlencodedParser, function(req, res) {
 
+    //mail variable is set to sql query in radio button is set to send to users else it
+    //is the value entered for email on form
+    var mailList = req.body.email;
+    
+    console.log(req.body.emailOption);
+    
+    if( req.body.emailOption  === 'sendAll'){
+         console.log("sendAll");
+  var context = {};
+  mysql.pool.query('SELECT email FROM useraccount WHERE newsletter=1', function(err, rows, fields){
+    if(err){
+      next(err);
+      return;
+    }
+    context.results = rows;
+    console.log('Collect email addresses');
+    
+  });
 
-  console.log(req.body.email);
 
-  const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
 
-// create reusable transporter object using the default SMTP transport
-// Following three blocks of code are sourced from https://nodemailer.com/about/
+
+    }else{
+
+        console.log("sendone");
+
+    }
+
+
+    console.log(req.body.email);
+    const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
+
+    // create reusable transporter object using the default SMTP transport
+    // Following three blocks of code are sourced from https://nodemailer.com/about/
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
