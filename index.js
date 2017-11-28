@@ -8,6 +8,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var nodemailer = require('nodemailer');
 var hbs = require('./modules/hbsHelper.js');
 var sessionManager = require('./modules/sessionManager.js');
+var partyDb = require("./modules/politicalPartyDb.js");
 
 var app = express();
 
@@ -77,9 +78,17 @@ app.get('/getPropositionDetails', function(req, res, next) {
 });
 
 app.get('/register', function(req, res, next) {
-  var context = {};
-  res.status(200);
-  res.render('register', context);
+  if (sessionManager.sessionExists(req)) {
+    res.redirect('/profile');
+  } else {
+    partyDb.getAllParties(req, res, next, function(req, res, rows) {
+      var context = {};
+      context.parties = rows;
+      context.sessionExists = true;
+      res.status(200);
+      res.render('register', context);
+    });
+  }
 });
 
 app.post('/registerUser', function(req, res, next) {
@@ -106,19 +115,45 @@ app.get('/profile', function(req, res, next) {
   }
 });
 
-app.get('/editProfile', function(req, res, next){
-  var context = {};
+app.get('/editProfile', function(req, res, next) {
   if (sessionManager.sessionExists(req)) {
-    context.sessionExists = true;
+    partyDb.getAllParties(req, res, next, function(req, res, rows) {
+      var context = {};
+      context.parties = rows;
+      context.sessionExists = true;
+      context.user = sessionManager.get(req, "user");
+      res.status(200);
+      res.render('editProfile', context);
+    });
+  } else {
+    res.status(200);
+    res.redirect('/login');
   }
-  res.status(200);
-  res.render('editProfile', context);
 });
 
 app.post('/updateUser', function(req, res, next) {
-  userDb.updateUser(req, res, next);
+  if (sessionManager.sessionExists(req)) {
+    userDb.updateUserInfo(req, res, next, function(req, res, rows) {
+      userDb.getUserProfile(req, res, next, function(req, res, rows) {
+        var user = {
+          "username": rows[0].username,
+          "email": rows[0].email,
+          "password": '',
+          "zipcode": rows[0].zipcode,
+          "party": rows[0].party,
+          "political_party_id": rows[0].political_party_id,
+          "reminder": rows[0].reminder,
+          "newsletter": rows[0].newsletter
+        };
+        sessionManager.put(req, "user", user);
+        res.redirect('/profile');
+      })
+    });
+  } else {
+    res.status(200);
+    res.redirect('/login');
+  }
 });
-
 
 app.post('/userLogin', function(req, res, next) {
   userDb.userLogin(req, res, next);

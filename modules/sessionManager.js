@@ -1,3 +1,4 @@
+
 module.exports = {
 	setUserSessionName: setUserSessionNameFunction,
 	sessionExists: sessionExistsFunction,

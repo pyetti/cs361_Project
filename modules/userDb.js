@@ -1,19 +1,26 @@
 var path = require('path');
 var dbConfig = require('../dbcon.js');
 var sessionManager = require( path.resolve( __dirname, "./sessionManager.js" ));
-var userObject = require( path.resolve( __dirname, "./User.js" ));
+var partyDb = require( path.resolve( __dirname, "./politicalPartyDb.js" ));
 
 module.exports = {
 	register : registerUser,
 	userLogin : userLoginFunction,
 	getUserProfile : getUserProfileFunction,
-	updateUser : updateUserInfo
+	updateUserInfo : updateUserInfo
 }
 
 function registerUser (req, res, errorHandler) {
-	var params = getParamsFromBody(req.body);
+	var params = [];
+	params.push(req.body.username);
+	params.push(req.body.email);
+	params.push(req.body.password);
+	params.push(req.body.zipcode);
+	params.push(req.body.political_party_id);
+	params.push(req.body.reminder === 'on' ? 1 : 0);
+	params.push(req.body.newsletter === 'on' ? 1 : 0);
 
-	var registerSql = "INSERT INTO useraccount (`username`, `email`, `password`, `zipcode`, `party`, `reminder`, `newsletter`) VALUES (?, ?, ?, ?, ?, 1, 1)"; //Fix for reminders/newletter
+	var registerSql = "INSERT INTO useraccount (`username`, `email`, `password`, `zipcode`, `political_party_id`, `reminder`, `newsletter`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	dbConfig.pool.query(registerSql, params, function(err, rows, fields) {
 		if (err) {
@@ -21,18 +28,21 @@ function registerUser (req, res, errorHandler) {
 			req.status = 500;
 			return;
 		}
-		else {
-		var context = {};
-		context.successful = "Success";
 		res.redirect("/login");
-		}
 	});
 }
 
-function updateUserInfo(req, res, errorHandler) {
-	var params = getParamsFromBody(req.body);
+function updateUserInfo(req, res, errorHandler, successCallback) {
+	var params = [];
+	params.push(req.body.email);
+	params.push(req.body.password);
+	params.push(req.body.zipcode);
+	params.push(req.body.political_party_id);
+	params.push(req.body.reminder === 'on' ? 1 : 0);
+	params.push(req.body.newsletter === 'on' ? 1 : 0);
+	params.push(req.body.username);
 
-	var updateSql = "UPDATE useraccount SET `username` = ?, `email` = ?, `password` = ?, `zipcode` = ?, `party` = ?, `reminders` = 1, `newsletter` = 0 WHERE `id`= 1"; //FIX FOR ID - ADD TO SESSION?
+	var updateSql = "UPDATE useraccount SET `email` = ?, `password` = ?, `zipcode` = ?, `political_party_id` = ?, `reminder` = ?, `newsletter` = ? WHERE `username`= ?;";
 
 	dbConfig.pool.query(updateSql, params, function(err, rows, fields) {
 		if (err) {
@@ -40,9 +50,8 @@ function updateUserInfo(req, res, errorHandler) {
 			req.status = 500;
 			return;
 		}
-		else {
-		res.redirect("/profile");
-		}
+
+		successCallback(req, res, rows);
 	});
 }
 
@@ -59,8 +68,16 @@ function userLoginFunction (req, res, errorHandler) {
 		if (rows[0] && rows[0].username) {
 		    req.status = 200;
 		    sessionManager.setUserSessionName(req);
-		    var user = new userObject.User(rows[0].username, rows[0].email, '',
-		    	rows[0].zipcode, rows[0].party, rows[0].reminder, rows[0].newsletter);
+		    var user = {
+		    	"username": rows[0].username,
+		    	"email": rows[0].email,
+		    	"password": '',
+		    	"zipcode": rows[0].zipcode,
+		    	"party": rows[0].party,
+		    	"political_party_id": rows[0].political_party_id,
+		    	"reminder": rows[0].reminder,
+		    	"newsletter": rows[0].newsletter
+		    };
 		    sessionManager.put(req, "user", user);
 		    res.redirect('/');
 		  } else {
@@ -72,19 +89,16 @@ function userLoginFunction (req, res, errorHandler) {
 	});
 }
 
-function getUserProfileFunction (req, res, errorHandler) {
-	var params = {};
+function getUserProfileFunction (req, res, errorHandler, successCallback) {
+	var params = [];
 	params.push(req.session.name);
 	dbConfig.pool.query(getUserProfileSQL, params, function(err, rows, fields) {
 		if (err) {
-			errorHandler(err);
 			req.status = 500;
+			errorHandler(err);
 			return;
 		}
-		var context = {};
-		if (rows[0].username) {
-
-		}
+		successCallback(req, res, rows);
 	});
 }
 
@@ -97,8 +111,8 @@ function getParamsFromBody (reqBody) {
     return params;
 }
 
-var userLoginSql = "SELECT `username`, `email`, `zipcode`, `party`, `reminder`, `newsletter` FROM useraccount WHERE username = ? AND password = ?";
-var getUserProfileSQL = "SELECT `username`, `email`, `password`, `zipcode`, `party`, `reminder`, `newsletter` FROM useraccount WHERE useraccount = ?;";
+var userLoginSql = "SELECT `username`, `email`, `zipcode`, u.political_party_id, p.name AS party, `reminder`, `newsletter` FROM useraccount u JOIN politicalParties p ON u.political_party_id = p.political_party_id WHERE username = ? AND password = ?";
+var getUserProfileSQL = "SELECT `username`, `email`, `zipcode`, u.political_party_id, p.name AS party, `reminder`, `newsletter` FROM useraccount u JOIN politicalParties p ON u.political_party_id = p.political_party_id WHERE username = ?";
 
 
 

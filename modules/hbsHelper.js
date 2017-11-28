@@ -21,5 +21,5 @@ hbs.registerHelper('ifEven', function(index) {
 });
 
 hbs.registerHelper('ternary', function(value, test, a, b) {
-	return value == test ? a : b;
+	return value === test ? a : b;
 });
