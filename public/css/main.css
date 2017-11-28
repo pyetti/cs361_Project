@@ -97,3 +97,11 @@ select {
 .error-message {
 	color: red;
 }
+
+.profile-info {
+	margin-left: 10px;
+	display: inline;
+}
+
+
+

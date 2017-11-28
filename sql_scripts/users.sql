@@ -10,16 +10,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 `email` varchar(255) NOT NULL UNIQUE,
 `password` varchar(255) NOT NULL,
 `zipcode` int(11) NOT NULL,
-`party` varchar(255),
+`political_party_id` int(11),
 `reminders` boolean NOT NULL default 1,
-`newsletter` boolean NOT NULL default 1,    
-PRIMARY KEY(`id`)
+`newsletter` boolean NOT NULL default 1,
+PRIMARY KEY(`id`),
+CONSTRAINT fk_political_party_id FOREIGN KEY (political_party_id) REFERENCES politicalParties (political_party_id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 
-INSERT INTO `users` (`username`, `email`, `password`, `zipcode`, `party`, `reminders`, `newsletter`)
-VALUES ('Snoopy', 'voter.info.cs361@gmail.com', 'guest', '99901', 'Independent', 1, 1);
+INSERT INTO `users` (`username`, `email`, `password`, `zipcode`, `political_party_id`, `reminders`, `newsletter`)
+VALUES ('Snoopy', 'voter.info.cs361@gmail.com', 'guest', '99901', '1', 1, 1);
 
 INSERT INTO `users` (`username`, `email`, `password`, `zipcode`, `party`, `reminders`, `newsletter`) VALUES (?, ?, ?, ?, ?, 1, 1)
 
