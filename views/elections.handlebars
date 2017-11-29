@@ -63,3 +63,13 @@
 	</div>
 </div>
 {{/if}}
+
+{{#if loginSuccess }}
+	<div class="invalid-zipCode container">
+	<div class="row">
+		<div class="col-md-12">
+			<p id="invalid-zipCode-message">{{ loginSuccess }}</p>
+		</div>
+	</div>
+</div>
+{{/if}}

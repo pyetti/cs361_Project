@@ -99,6 +99,7 @@ select {
 	color: red;
 }
 
+<<<<<<< HEAD
 /* Social Media Share buttons generated from sharingbuttons.io */
 .resp-sharing-button__link,
 .resp-sharing-button__icon {
@@ -218,4 +219,12 @@ select {
     background-color: #5e5e5e;
     border-color: #5e5e5e;
 }
+=======
+.profile-info {
+	margin-left: 10px;
+	display: inline;
+}
+
+
+>>>>>>> origin/master
 

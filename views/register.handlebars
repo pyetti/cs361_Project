@@ -1,29 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form id='register-form' action="registerUser" method='post'>
+        <h2>Register</h2>
+        <input type="text" class="form-control" name="username" placeholder="Username" required>
+        <input type="text" class="form-control" name="email" placeholder="Email" required>
+        <input type="password" class="form-control" name="password" placeholder="Password" required>
+        <input type="text" class="form-control" name= "zipcode" placeholder="Zip Code" required>
 
-<form id='register-form' action="registeruser" method='post'>
-  <h2>Account Creation</h2>
-  <input type="text" name="username" placeholder="Username" required>
-  <input type="text" name="email" placeholder="Email" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <input type="password" name="retypepw" placeholder="Re-type Password" required>
-  <input type="text" name= "zipcode" placeholder="Zip Code" required>
-  
-  <select name="party">
-  <option disabled selected value> Political Affilation</option>
-  <option value="democrat">Democrat</option>
-  <option value="republican">Republican</option>
-  <option value="Green">Green Party</option>
-  <option value="libertarian">Libertarian</option>
-  <option value="Independent">Independent/Other</option>
-  </select>
+        {{#if parties}}
+          <select name="political_party_id" required class="form-control">
+            <option value="">Political Affilation</option>
+            {{#each parties}}
+              <option value="{{ this.political_party_id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        {{/if}}
 
-   <br><br>
+       <br><br>
 
-   <h2>Customize Your Experience</h2>
-   <input type="checkbox" name="reminder" value="1"> Get reminders for upcoming events<br>
-   <input type="checkbox" name="newsletter" value="1"> Receive an election newsletter<br>
-   <br>
-  <button type='submit'>Register</button>
+       <h2>Customize Your Experience</h2>
+       <input type="checkbox" name="reminder"> Get reminders for upcoming events<br>
+       <input type="checkbox" name="newsletter"> Receive an election newsletter<br>
+       <br>
 
-  <a href="/login"><span>Have an Account? Click here.</span></a>
+        <br><br><br>
+        <button class="btn btn-default" type='submit'>Register</button>
+        <a class="btn btn-default" href="/login"><span>Have an account? Click here.</span></a>
+      </form>
+    </div>
+  </div>
+    {{#if successful }}
+    <div class="row">
+      <div class="col-md-12">
+        <p class="error-message">{{ successful }}</p>
+      </div>
+    </div>
+  {{/if}}
 
-</form>
+
+</div>
