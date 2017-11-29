@@ -24,9 +24,15 @@
 				</div>
 				
 				<!-- Social Media Sharing -->
-				<button class="btn-tweet" href="#">Twitter</button>
-				<button class="btn-facebook" href="#">Facebook</button>
-				<button class="btn-google" href="#">Google+</button>
+				<!-- Twitter -->
+				<a target="_blank" href="https://twitter.com/intent/tweet?text=VOTE-LOCAL"><button class="btn-tweet" href="#">Twitter</button></a>	
+
+				<!-- Facebook -->
+				<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?"><button class="btn-facebook" href="#">Facebook</button></a>
+
+				<!--Google+ -->
+				<script src="https://apis.google.com/js/platform.js" asyn defer></script>
+				<g:plus action="share"></g:plus>
 
 			</div>
 		</div>
@@ -37,6 +43,6 @@
 	{{{body}}}
 
 	<script type="text/javascript" src="js/build/production.min.js"></script>
-	<script src="share.min.js"></script>
+	<script src="share.min.js"></script>	
 </body>
 </html>
