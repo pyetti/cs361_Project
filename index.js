@@ -195,11 +195,6 @@ app.use('/send', send)
 
 app.use('/user-tests', user_tests)
 
-app.get('/redirect', function(req,res) {
-	var url = share(req.query.service, req.query);
-	res.redirect(url);
-});
-
 app.use(function(req,res) {
   var context = {};
   if (sessionManager.sessionExists(req)) {
