@@ -19,37 +19,52 @@ router.use(function timeLog (req, res, next) {
 
 router.post('/', urlencodedParser, function(req, res) {
 
-    //mail variable is set to sql query in radio button is set to send to users else it
-    //is the value entered for email on form
+    //maillist variable is set to sql query if radio button is set to send to users/ else it's
+    //is the value entered from email textbox on form
     var mailList = req.body.email;
     
     console.log(req.body.emailOption);
     
     if( req.body.emailOption  === 'sendAll'){
          console.log("sendAll");
-  var context = {};
-  mysql.pool.query('SELECT email FROM useraccount WHERE newsletter=1', function(err, rows, fields){
-    if(err){
-      next(err);
-      return;
-    }
-    context.results = rows;
-    console.log('Collect email addresses');
-    
-  });
+        var context = {};
+        mysql.pool.query('SELECT email FROM useraccount WHERE newsletter=1', function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+       
+        
+        context.results = rows;
+        console.log(context.results);
+        maillist = listAddress();
+
+        function listAddress() {
+            var people = context.results.map(function(item,index) {
+            var sendee = [item.email] + "" ;
+        return sendee;
+        })
+		//	alert(typeof people);
+        //  console.log( people[0]);
+    var ener = people.join(", ");
+ //   document.getElementById('rc').innerHTML = "Sending to Users: " + ener;
+//    console.log(ener);
+    return ener;
+};
 
 
 
 
+    });
     }else{
 
         console.log("sendone");
-
-    }
+        maillist = req.body.email;
+}
 
 
     console.log(req.body.email);
-    const output = `<p> This is a email subscription <%= req.body.email %> test</p>`;
+    const output = `<p>This is some new content </p>`;
 
     // create reusable transporter object using the default SMTP transport
     // Following three blocks of code are sourced from https://nodemailer.com/about/
@@ -67,8 +82,8 @@ router.post('/', urlencodedParser, function(req, res) {
     // setup email data with unicode symbols
     let mailOptions = {
         from: 'VOTE✔LOCAL <voter.info.cs361@gmail.com>', // sender address
-        to: req.body.email, // list of receivers
-        subject: 'VOTE✔LOCAL test message cs361', // Subject line
+        to: maillist, // list of receivers
+        subject: 'VOTE✔LOCAL  OSU Software Engineering I', // Subject line
         text: req.body.message, // plain text body
         html:  output// html body
 
