@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "forever": "^0.15.3",
-    "grunt-contrib-copy": "^1.0.0"
+    "grunt-contrib-copy": "^1.0.0",
+    "gulp": "^3.9.1"
   }
 }

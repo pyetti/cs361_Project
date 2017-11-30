@@ -80,9 +80,11 @@ input[type="text"], [type="password"]{
   width: 100%;
   border:1px solid #CCC
 }
+
 button {
-  padding:10px
+  /*padding:10px*/
 }
+
 label {
   cursor:pointer
 }
@@ -96,4 +98,22 @@ select {
 
 .error-message {
 	color: red;
+}
+
+.profile {
+	margin-left: 50px;
+}
+
+.profile-info {
+	margin-left: 1px;
+	display: inline;
+}
+
+.profile-label {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.profile-data {
+	font-size: 1.2em;
 }

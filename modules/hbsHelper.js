@@ -19,3 +19,7 @@ hbs.registerHelper('ifEven', function(index) {
 	if (index % 2 == 0) { return true; }
 	return false;
 });
+
+hbs.registerHelper('ternary', function(value, test, a, b) {
+	return value === test ? a : b;
+});
