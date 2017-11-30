@@ -82,8 +82,9 @@ input[type="text"], [type="password"]{
 }
 
 button {
-  padding:10px
+  /*padding:10px*/
 }
+
 label {
   cursor:pointer
 }

@@ -17,28 +17,25 @@
 				<a class="href h1" href="/"><span class="">VOTE✔LOCAL</span></a>
 			</div>
 			<div class="col-md-6">
-				{{#if sessionExists }}
-					<div class="text-right user-auth-buttons">
+				<div class="text-right user-auth-buttons">
+					{{#if sessionExists }}
 						<a id="profile-button" href="/profile"><button class="btn btn-primary text-right">Profile</button></a>
 						<a href="/logout"><button class="btn btn-primary text-right">Logout</button></a>
-					</div>
-				{{else}}
-					<div class="text-right user-auth-buttons">
+					{{else}}
 						<a href="/login"><button class="btn btn-primary text-right">Login</button></a>
 						<a href="/register"><button class="btn btn-primary text-right">Register</button></a>
-					</div>
-				{{/if}}
-				<!-- Social Media Sharing -->
-				<!-- Twitter -->
-				<a target="_blank" href="https://twitter.com/intent/tweet?text=VOTE-LOCAL"><button class="btn-tweet" href="#">Twitter</button></a>
+					{{/if}}
+					<!-- Social Media Sharing -->
+					<!-- Twitter -->
+					<a target="_blank" href="https://twitter.com/intent/tweet?text=VOTE-LOCAL"><button class="btn btn-info" href="#">Twitter</button></a>
 
-				<!-- Facebook -->
-				<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?"><button class="btn-facebook" href="#">Facebook</button></a>
+					<!-- Facebook -->
+					<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?"><button class="btn btn-info" href="#">Facebook</button></a>
 
-				<!--Google+ -->
-				<script src="https://apis.google.com/js/platform.js" asyn defer></script>
-				<g:plus action="share"></g:plus>
-
+					<!--Google+-->
+					<script src="https://apis.google.com/js/platform.js" asyn defer></script>
+					<g:plus action="share"></g:plus>
+				</div>
 			</div>
 		</div>
 	</div>
