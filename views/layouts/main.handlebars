@@ -27,14 +27,15 @@
 					{{/if}}
 					<!-- Social Media Sharing -->
 					<!-- Twitter -->
-					<a target="_blank" href="https://twitter.com/intent/tweet?text=VOTE-LOCAL"><button class="btn btn-info" href="#">Twitter</button></a>
+					<a target="_blank" href="javascript:tweetCurrentPage()"><button class="btn btn-info" href="#">Twitter</button></a>
 
 					<!-- Facebook -->
 					<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?"><button class="btn btn-info" href="#">Facebook</button></a>
 
-					<!--Google+-->
+					<!-- Google+ -->
 					<script src="https://apis.google.com/js/platform.js" asyn defer></script>
 					<g:plus action="share"></g:plus>
+
 				</div>
 			</div>
 		</div>
@@ -45,5 +46,9 @@
 	{{{body}}}
 
 	<script type="text/javascript" src="js/build/production.min.js"></script>
+	<script language="javascript">
+		function tweetCurrentPage()
+	{ window.open("https://twitter.com/share?url=" + escape(window.location.href) + "&text=" + document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600'); return false; }
+	</script>
 </body>
 </html>
