@@ -99,4 +99,20 @@ select {
 	color: red;
 }
 
+.profile {
+	margin-left: 50px;
+}
 
+.profile-info {
+	margin-left: 1px;
+	display: inline;
+}
+
+.profile-label {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.profile-data {
+	font-size: 1.2em;
+}
