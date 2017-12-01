@@ -117,3 +117,11 @@ select {
 .profile-data {
 	font-size: 1.2em;
 }
+
+.voter-registration-header {
+	margin-bottom: 20px;
+}
+
+.voter-registration-link {
+	margin: 5px;
+}

@@ -1,8 +1,25 @@
+{{#if url}}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center voter-registration-header">Click on the link for your state to be taken the vote.gov registration page.</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				{{#each stateMap }}
+
+						{{#each this }}
+							<a class="btn btn-primary voter-registration-link" href="{{ ../../url }}{{ this }}/" target="_blank">{{ @key }}</a>
+						{{/each}}
+
+				{{/each}}
+			</div>
+		</div>
+	</div>
+{{/if}}
 
 
 
-<div> Registration Deadline: {{ when }} </div>
-<div> Where to Vote:{{where}} </div>
-<div> Voter Age Requirements: {{{Age}}} </div>
-<div> Voter ID Requirements: {{{voterID}}} </div>
-<div> Register Here: {{howToReg}} </div>
+
+
