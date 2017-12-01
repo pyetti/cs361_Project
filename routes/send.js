@@ -44,11 +44,7 @@ router.post('/', urlencodedParser, function(req, res) {
             var sendee = [item.email] + "" ;
         return sendee;
         })
-		//	alert(typeof people);
-        //  console.log( people[0]);
     var ener = people.join(", ");
- //   document.getElementById('rc').innerHTML = "Sending to Users: " + ener;
-//    console.log(ener);
     return ener;
 };
 
@@ -64,7 +60,7 @@ router.post('/', urlencodedParser, function(req, res) {
 
 
     console.log(req.body.email);
-    const output = `<p>This is some new content </p>`;
+    var output = '<p>' + req.body.email  + '</p>';
 
     // create reusable transporter object using the default SMTP transport
     // Following three blocks of code are sourced from https://nodemailer.com/about/
@@ -85,7 +81,7 @@ router.post('/', urlencodedParser, function(req, res) {
         to: maillist, // list of receivers
         subject: 'VOTE✔LOCAL  OSU Software Engineering I', // Subject line
         text: req.body.message, // plain text body
-        html:  output// html body
+        html: '<p>' + req.body.message + '</p>' // html body
 
     };
 
@@ -95,7 +91,6 @@ router.post('/', urlencodedParser, function(req, res) {
             return console.log(error);
         }
         console.log('Message sent: %s', info.messageId);
-        // Preview only available when sending through an Ethereal account
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     });
 
