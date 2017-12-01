@@ -18,7 +18,7 @@ var app = express();
 
 hbs.registerHandlebars(app, handlebars);
 
-app.set('port', 4350);
+app.set('port', process.argv[2]);
 app.use(session({secret:'_qJ$_fuRZueuMrD8TCMgH6WL**h^PH'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
