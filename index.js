@@ -178,8 +178,11 @@ app.get('/logout', function(req, res, next) {
 
 
 app.get('/voterinformation', function(req,res) {
-  res.status(200);
   var context = {};
+  if (sessionManager.sessionExists(req)) {
+    context.sessionExists = true;
+  }
+  res.status(200);
   context.url = "https://vote.gov/register/";
   context.stateMap = [
     {"Alabama": "al"},
